@@ -1,6 +1,5 @@
-package com.spynetest.assignment.model.database
+package com.spynetest.assignment.model.database.ImagePicker
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

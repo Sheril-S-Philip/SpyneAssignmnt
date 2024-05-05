@@ -74,7 +74,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //Gallery
+    //Material UI Design for compose:
+    implementation(libs.material3)
+    implementation("androidx.compose.material3:material3-window-size-class:1.2.1")
+    implementation(libs.androidx.material3.adaptive.navigation.suite)
+
+    //coil
     implementation(libs.coil.compose)
 
     //View Model Dependency
@@ -90,11 +95,11 @@ dependencies {
 
     //RoomDB
     implementation(libs.androidx.room.runtime)
-//    annotationProcessor(libs.androidx.room.compiler)
-    // To use Kotlin annotation processing tool (kapt)
     ksp(libs.androidx.room.compiler)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+    // optional - Paging 3 Integration
+    implementation(libs.androidx.room.paging)
 
     //Coroutines
     implementation(libs.kotlinx.coroutines.android)
@@ -106,6 +111,10 @@ dependencies {
     //navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    //Paging
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 }
 
 // Allow references to generated code

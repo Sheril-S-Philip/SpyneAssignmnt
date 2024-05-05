@@ -1,4 +1,4 @@
-package com.spynetest.assignment.screens
+package com.spynetest.assignment.screens.main
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -12,11 +12,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,10 +27,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
-
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
@@ -57,7 +57,7 @@ fun MainScreen(viewModel: MainViewModel) {
 fun ActionButtons(
     onPickImages: () -> Unit,
     onSaveToRoom: () -> Unit,
-    onUploadToServer: () -> Unit
+    onUploadToServer: () -> Unit,
 ) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         item {
@@ -67,25 +67,28 @@ fun ActionButtons(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Button(onClick = onUploadToServer) {
+                Button(onClick = onUploadToServer, modifier = Modifier.width(175.dp)) {
                     Text(text = "Upload Image to Server")
                 }
-                Button(onClick = onSaveToRoom) {
+                Button(onClick = onSaveToRoom, modifier = Modifier.width(175.dp)) {
                     Text(text = "Save Image to Room")
                 }
             }
         }
         item {
             Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().padding(8.dp)
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
             ) {
                 Button(
-                    onClick = onPickImages
+                    onClick = onPickImages, modifier = Modifier.width(175.dp)
                 ) {
                     Text(text = "Pick Image(s) from Gallery")
                 }
             }
+
         }
     }
 }

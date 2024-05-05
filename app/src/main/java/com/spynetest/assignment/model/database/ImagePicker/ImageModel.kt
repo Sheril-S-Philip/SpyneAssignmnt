@@ -1,4 +1,4 @@
-package com.spynetest.assignment.model.database
+package com.spynetest.assignment.model.database.ImagePicker
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

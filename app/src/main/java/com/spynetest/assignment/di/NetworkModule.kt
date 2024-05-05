@@ -2,7 +2,7 @@ package com.spynetest.assignment.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.spynetest.assignment.api.UploadService
+import com.spynetest.assignment.api.ApiService
 import com.spynetest.assignment.util.Constants.Companion.BASE_URL
 import com.spynetest.assignment.util.Constants.Companion.NETWORK_TIMEOUT
 import dagger.Module
@@ -45,12 +45,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(baseUrl: String, gson: Gson, client: OkHttpClient) : UploadService{
+    fun providesRetrofit(baseUrl: String, gson: Gson, client: OkHttpClient) : ApiService{
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-            .create(UploadService::class.java)
+            .create(ApiService::class.java)
     }
 }

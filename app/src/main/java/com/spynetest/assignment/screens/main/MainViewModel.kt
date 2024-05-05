@@ -1,7 +1,6 @@
-package com.spynetest.assignment.screens
+package com.spynetest.assignment.screens.main
 
 
-import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.util.Log
@@ -12,13 +11,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.spynetest.assignment.model.database.ImageDataBase
-import com.spynetest.assignment.model.database.ImageModel
+import com.spynetest.assignment.model.database.ImagePicker.ImageModel
 import com.spynetest.assignment.repository.ImageRepository
 import com.spynetest.assignment.util.Converters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,15 +26,12 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.util.UUID
+import javax.inject.Inject
 
 
-class MainViewModel @AssistedInject constructor(
-    private val repository: ImageRepository,
-    @Assisted
-    private val context: Context): ViewModel() {
-
-        val converters = Converters()
+@HiltViewModel
+class MainViewModel @Inject constructor(@ApplicationContext private val applicationContext: Context, private val repository: ImageRepository): ViewModel() {
+    private val converters = Converters()
     init {
         Log.d("INITIALISE_VIEW_MODEL", "View Model initialised")
     }
@@ -83,10 +80,10 @@ class MainViewModel @AssistedInject constructor(
                 val updatedImageModel = ImageModel(imageModel.imageUri, true)
                 updateDB(updatedImageModel)
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Image uploaded to server successfully! -- ${response.body()!!.image}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Image uploaded to server successfully! -- ${response.body()!!.image}", Toast.LENGTH_SHORT).show()
                 }
             }else{
-                Toast.makeText(context, "Image upload failed! -- ${response.body()!!.image}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Image upload failed! -- ${response.body()!!.image}", Toast.LENGTH_SHORT).show()
             }
         }catch (e: Exception){
             e.printStackTrace()
@@ -102,7 +99,7 @@ class MainViewModel @AssistedInject constructor(
         try {
             val imagesObjList = repository.getPendingImages()
             imagesObjList.forEach { imageModel ->
-                val file = converters.createTempFileFromUri(context.contentResolver, imageModel.imageUri)
+                val file = converters.createTempFileFromUri(applicationContext.contentResolver, imageModel.imageUri)
                 if (file!=null){
                     postFileToServer(file, imageModel)
                 }else{
@@ -111,22 +108,6 @@ class MainViewModel @AssistedInject constructor(
             }
         }catch (e : Exception){
             e.printStackTrace()
-        }
-    }
-
-
-    @AssistedFactory
-    interface Factory{
-        fun create(context: Context) : MainViewModel
-    }
-
-    companion object{
-        fun provideMainViewModelFactory(factory: Factory, context: Context) : ViewModelProvider.Factory{
-            return object : ViewModelProvider.Factory{
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return factory.create(context) as T
-                }
-            }
         }
     }
 }

@@ -2,4 +2,5 @@
 <resources>
 
     <style name="Theme.Assignment" parent="android:Theme.Material.Light.NoActionBar" />
+        <item name="android.statusBarColor" type="color">@color/black</item>
 </resources>
